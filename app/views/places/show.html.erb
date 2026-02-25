@@ -1,0 +1,80 @@
+<style>
+  .entries-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  .entry-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .entry-date {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #6a1b9a;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    display: block;
+  }
+  .entry-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin: 0 0 20px;
+    color: #333;
+  }
+  .entry-description {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.8;
+    margin: 0;
+  }
+  .divider-small {
+    width: 40px;
+    height: 2px;
+    background: #6a1b9a;
+    margin: 20px auto;
+  }
+</style>
+
+<div class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<%= @place.image_url %>'); height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #fff !important; text-align: center; background-position: center; background-size: cover;">
+  <h1 style="color: #fff !important; font-family: 'Playfair Display', serif; font-size: 4.5rem; margin: 0; letter-spacing: 3px;"><%= @place.name.upcase %></h1>
+  <p style="color: #fff !important; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 5px; margin-top: 10px;">Travel Log & Memories</p>
+</div>
+
+<div class="entries-container">
+  <div class="section-title" style="text-align: center; margin-bottom: 60px;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px;">THE JOURNEY</h2>
+    <div class="divider" style="width: 60px; height: 3px; background: #6a1b9a; margin: 0 auto;"></div>
+  </div>
+
+  <% if @place.entries.any? %>
+    <% @place.entries.each do |entry| %>
+      <div class="entry-box">
+        <span class="entry-date">
+          <%= entry.occurred_on.strftime("%B %d, %Y") if entry.occurred_on %>
+        </span>
+        <h3 class="entry-title"><%= entry.title %></h3>
+        <div class="divider-small"></div>
+        <p class="entry-description"><%= entry.description %></p>
+        <br>
+        <%= button_to "DELETE MEMORY", entry_path(entry), method: :delete, data: { confirm: "Are you sure?" }, style: "background: none; border: none; color: #ff5252; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; font-weight: 700; cursor: pointer;" %>
+      </div>
+    <% end %>
+  <% else %>
+    <div style="text-align: center; padding: 60px; background: #fff; border-radius: 12px; border: 1px dashed #ccc;">
+      <p style="color: #777; font-size: 1.1rem;">No entries yet for this destination.</p>
+    </div>
+  <% end %>
+
+  <div class="btn-container" style="text-align: center; margin-top: 60px;">
+    <%= link_to "LOG A NEW MEMORY", new_place_entry_path(@place), class: "btn-primary", style: "padding: 18px 45px;" %>
+    <br><br>
+    <%= link_to "BACK TO DESTINATIONS", places_path, style: "text-decoration: none; color: #777; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; font-weight: 700;" %>
+  </div>
+</div>

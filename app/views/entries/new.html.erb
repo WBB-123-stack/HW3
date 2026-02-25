@@ -1,0 +1,48 @@
+<div class="container" style="padding-top: 60px;">
+  <div class="form-wrapper">
+    <div class="section-title">
+      <% if @place %>
+        <h2>NEW LOG FOR <%= @place.name.upcase %></h2>
+      <% else %>
+        <h2>NEW TRAVEL LOG</h2>
+      <% end %>
+      <div class="divider"></div>
+    </div>
+
+    <%= form_with model: (@place ? [@place, @entry] : @entry) do |form| %>
+      <% unless @place %>
+        <div class="form-group" style="margin-bottom: 25px;">
+          <%= form.label :place_id, "DESTINATION", style: "display: block; font-weight: 600; font-size: 0.8rem; letter-spacing: 2px; color: #666; margin-bottom: 10px;" %>
+          <%= form.collection_select :place_id, Place.all, :id, :name, { prompt: "SELECT DESTINATION" }, { style: "width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Montserrat', sans-serif; background: #fff;" } %>
+        </div>
+      <% end %>
+
+      <div class="form-group" style="margin-bottom: 25px;">
+        <%= form.label :title, "ENTRY TITLE", style: "display: block; font-weight: 600; font-size: 0.8rem; letter-spacing: 2px; color: #666; margin-bottom: 10px;" %>
+        <%= form.text_field :title, placeholder: "e.g. Hiking the Sacred Valley", style: "width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Montserrat', sans-serif; box-sizing: border-box;" %>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 25px;">
+        <%= form.label :description, "TELL YOUR STORY", style: "display: block; font-weight: 600; font-size: 0.8rem; letter-spacing: 2px; color: #666; margin-bottom: 10px;" %>
+        <%= form.text_area :description, rows: 6, placeholder: "Describe your adventure...", style: "width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Montserrat', sans-serif; box-sizing: border-box;" %>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 35px;">
+        <%= form.label :occurred_on, "DATE OF ADVENTURE", style: "display: block; font-weight: 600; font-size: 0.8rem; letter-spacing: 2px; color: #666; margin-bottom: 10px;" %>
+        <%= form.date_field :occurred_on, style: "width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: 'Montserrat', sans-serif; box-sizing: border-box;" %>
+      </div>
+
+      <div style="text-align: center;">
+        <%= form.submit "CREATE LOG ENTRY", class: "btn-primary", style: "width: 100%; cursor: pointer;" %>
+      </div>
+    <% end %>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <% if @place %>
+        <%= link_to "BACK TO #{@place.name.upcase}", place_path(@place), style: "text-decoration: none; color: #999; font-size: 0.8rem; letter-spacing: 1px; font-weight: 600;" %>
+      <% else %>
+        <%= link_to "BACK TO ALL ENTRIES", entries_path, style: "text-decoration: none; color: #999; font-size: 0.8rem; letter-spacing: 1px; font-weight: 600;" %>
+      <% end %>
+    </div>
+  </div>
+</div>

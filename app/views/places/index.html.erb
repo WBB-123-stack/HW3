@@ -1,0 +1,74 @@
+<style>
+  .places-list {
+    max-width: 600px;
+    margin: 40px auto;
+  }
+  .place-card {
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    margin-bottom: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  .place-card:hover {
+    transform: translateY(-5px);
+    border-color: #6a1b9a;
+  }
+  .place-card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+  }
+  .place-card-content {
+    padding: 35px;
+  }
+  .place-card-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin: 0 0 20px;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+</style>
+
+<div class="hero">
+  <h1>EXPLORE. DREAM. DISCOVER.</h1>
+  <p>Your Ultimate Travel Destination Guide</p>
+</div>
+
+<div class="container">
+  <div class="section-title">
+    <h2>TOP DESTINATIONS</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="places-list">
+    <% @places.each do |place| %>
+      <div class="place-card">
+        <% if place.image_url.present? %>
+          <img src="<%= place.image_url %>" alt="<%= place.name %>">
+        <% else %>
+          <div style="width: 100%; height: 400px; background: #ccc; display: flex; align-items: center; justify-content: center; color: #fff;">
+            NO IMAGE
+          </div>
+        <% end %>
+        
+        <div class="place-card-content">
+          <h3><%= place.name %></h3>
+          <%= link_to "EXPLORE MEMORIES", place_path(place), class: "btn-primary" %>
+          <br><br>
+          <%= button_to "DELETE DESTINATION", place_path(place), method: :delete, data: { confirm: "Are you sure?" }, style: "background: none; border: none; color: #ff5252; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; font-weight: 700; cursor: pointer;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="btn-container">
+    <%= link_to "Add a New Place", new_place_path, class: "btn-primary" %>
+  </div>
+</div>

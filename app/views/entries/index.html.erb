@@ -1,0 +1,83 @@
+<style>
+  .entries-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  .entry-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .entry-location {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #6a1b9a;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .entry-date {
+    color: #999;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 15px;
+  }
+  .entry-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin: 0 0 20px;
+    color: #333;
+  }
+  .entry-description {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.8;
+    margin: 0;
+  }
+  .divider-small {
+    width: 40px;
+    height: 2px;
+    background: #6a1b9a;
+    margin: 20px auto;
+  }
+</style>
+
+<div class="hero" style="background-color: #6a1b9a; padding: 60px 20px; text-align: center; color: #fff !important; margin-bottom: 40px;">
+  <h1 style="color: #fff !important; font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; letter-spacing: 2px;">ALL MEMORIES</h1>
+  <p style="color: #fff !important; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 4px; margin-top: 10px;">A Collection of Every Adventure</p>
+</div>
+
+<div class="entries-container">
+  <% if @entries.any? %>
+    <% @entries.each do |entry| %>
+      <div class="entry-box">
+        <span class="entry-location">
+          <%= link_to entry.place.name.upcase, place_path(entry.place), style: "text-decoration: none; color: #6a1b9a;" %>
+        </span>
+        <span class="entry-date">
+          <%= entry.occurred_on.strftime("%B %d, %Y") if entry.occurred_on %>
+        </span>
+        <h3 class="entry-title"><%= entry.title %></h3>
+        <div class="divider-small"></div>
+        <p class="entry-description"><%= entry.description %></p>
+        <br>
+        <%= button_to "DELETE MEMORY", entry_path(entry), method: :delete, data: { confirm: "Are you sure?" }, style: "background: none; border: none; color: #ff5252; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px; font-weight: 700; cursor: pointer;" %>
+      </div>
+    <% end %>
+  <% else %>
+    <div style="text-align: center; padding: 60px; background: #fff; border-radius: 12px; border: 1px dashed #ccc;">
+      <p style="color: #777; font-size: 1.1rem;">No memories logged yet.</p>
+    </div>
+  <% end %>
+
+  <div class="btn-container" style="text-align: center; margin-top: 40px;">
+    <%= link_to "LOG A NEW MEMORY", new_entry_path, class: "btn-primary", style: "padding: 18px 45px;" %>
+  </div>
+</div>
